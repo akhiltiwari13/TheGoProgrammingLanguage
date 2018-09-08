@@ -10,7 +10,6 @@ import (
 	"math"
 	"math/rand"
 	"net/http"
-	"strconv"
 )
 
 var palette = []color.Color{color.RGBA{0x00, 0x00, 0x00, 0xff}, color.RGBA{0x00, 0xff, 0x00, 0xff}, color.RGBA{0xd5, 0xf1, 0x44, 0xff}, color.RGBA{0xb9, 0x69, 0xac, 0xff}}
@@ -18,10 +17,9 @@ var arr = []uint8{0, 1, 2, 3}
 
 func main() {
 	handler := func(w http.ResponseWriter, r *http.Request) {
-		cycles := strconv.Atoi(r.Body.)
-		lissajous(w, foat64(cycles))
+		lissajous(w)
 	}
-	http.HandleFunc("/count", handler) // each request calls handler
+	http.HandleFunc("/", handler) // each request calls handler
 	log.Fatal(http.ListenAndServe("localhost:8000", nil))
 }
 
@@ -40,15 +38,14 @@ func main() {
 // 	}
 // }
 
-func lissajous(out io.Writer, cyc float64) {
+func lissajous(out io.Writer) {
 	const (
-		// cycles  = 5     // number of complete x oscillator revolutions
+		cycles  = 5     // number of complete x oscillator revolutions
 		res     = 0.001 // angular resolution
 		size    = 100   // image canvas covers [-size..+size]
 		nframes = 64    // number of animation frames
 		delay   = 8     // delay between frames in 10ms units
 	)
-	cycles := cyc
 	freq := rand.Float64() * 3.0 // relative frequency of y oscillator
 	anim := gif.GIF{LoopCount: nframes}
 	phase := 0.0 // phase difference
