@@ -29,7 +29,7 @@ func main() {
 	}
 }
 func countLines(f *os.File, counts map[string]int) string fileName {
-	input := bufio.NewScanner(f)
+		input := bufio.NewScanner(f)
 	for input.Scan() {
 		counts[input.Text()]++
 	}
